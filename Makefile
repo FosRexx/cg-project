@@ -7,7 +7,7 @@ INCLUDE_DIR = ./include
 TARGET = $(BUILD_DIR)/cg-project
 SRCS = $(wildcard $(SRC_DIR)/*.c)
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRCS))
-LIBS = -lSDL2 -lSDL2_ttf
+LIBS = -lSDL2 -lSDL2_ttf -lm
 
 .PHONY: all clean
 

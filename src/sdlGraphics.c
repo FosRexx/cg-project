@@ -37,6 +37,8 @@ bool initSDL() {
 		fprintf(stderr, "Failed to load font: %s\n", SDL_GetError());
 
 	SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+	SDL_SetRelativeMouseMode(SDL_TRUE);
+	SDL_ShowCursor(SDL_DISABLE);
 
 	// Set background color to black
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);

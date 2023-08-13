@@ -1,8 +1,8 @@
 #ifndef WORLD_MAP_H
 #define WORLD_MAP_H
 
-#define mapWidth 24
-#define mapHeight 24
+#define mapWidth 36
+#define mapHeight 36
 
 extern int worldMap[mapWidth][mapHeight];
 

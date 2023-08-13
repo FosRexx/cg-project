@@ -60,8 +60,12 @@ void performRayCasting(double pPosX, double pPosY, double pDirX, double pDirY, d
 			}
 
 			if (posRayInMapX >= 0 && posRayInMapX < mapWidth && posRayInMapY >= 0 && posRayInMapY < mapHeight)
+			{
 				if (worldMap[posRayInMapX][posRayInMapY] > 0) 
+				{
 					hit = 1;
+				}
+			}
 		}
 
 		// Calculate the prependicular distance between the camera plane and the wall

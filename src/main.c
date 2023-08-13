@@ -2,6 +2,9 @@
 #include "raycaster.h"
 #include "worldMap.h"
 
+#include <math.h>
+
+
 int main(int argc, char **argv) {
 	(void) argc;
 	(void) argv;
@@ -19,6 +22,8 @@ int main(int argc, char **argv) {
 
 	bool isSDLInit = initSDL();
 
+	const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
+
 	previousTime = SDL_GetTicks();
 	while (isSDLInit && isRunning) {
 		currentTime = SDL_GetTicks();
@@ -26,7 +31,8 @@ int main(int argc, char **argv) {
 		previousTime = SDL_GetTicks();
 
 		double velocity = 5 * deltaTime; // Pixels/second
-		double angularVelocity = 3 * deltaTime; // Radians/second
+
+		double tempRotatedDirX = 0, tempRotatedDirY = 0;
 
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
@@ -34,38 +40,58 @@ int main(int argc, char **argv) {
 				case SDL_QUIT:
 					isRunning = false;
 					break;
-				case SDL_KEYDOWN:
-					switch (event.key.keysym.sym) {
-						case SDLK_w:
-							if (worldMap[(int)(pPosX + pDirX * velocity)][(int)pPosY] == 0) pPosX += pDirX * velocity;
-							if (worldMap[(int)pPosX][(int)(pPosY + pDirY * velocity)] == 0) pPosY += pDirY * velocity;
-							break;
+				case SDL_MOUSEMOTION:
+					{
+						int mouseMoveX = -event.motion.xrel;
+						
+						double rotationSpeed = mouseMoveX * deltaTime * 0.1;
 
-						case SDLK_a:
-							break;
+						double oldDirX = pDirX;
+						pDirX = pDirX * cos(rotationSpeed) - pDirY * sin(rotationSpeed);
+						pDirY = oldDirX * sin(rotationSpeed) + pDirY * cos(rotationSpeed);
 
-						case SDLK_s:
-							if (worldMap[(int)(pPosX - pDirX * velocity)][(int)pPosY] == 0) pPosX -= pDirX * velocity;
-							if (worldMap[(int)pPosX][(int)(pPosY - pDirY * velocity)] == 0) pPosY -= pDirY * velocity;
-							break;
-
-						case SDLK_d:
-							break;
-
+						double oldPlaneX = cPlaneX;
+						cPlaneX = cPlaneX * cos(rotationSpeed) - cPlaneY * sin(rotationSpeed);
+						cPlaneY = oldPlaneX * sin(rotationSpeed) + cPlaneY * cos(rotationSpeed);
 					}
 					break;
 			}
 		}
 
+		// Movement
+		if (keyboardState[SDL_SCANCODE_W]) {
+			if (worldMap[(int)(pPosX + pDirX * velocity)][(int)pPosY] == 0) pPosX += pDirX * velocity;
+			if (worldMap[(int)pPosX][(int)(pPosY + pDirY * velocity)] == 0) pPosY += pDirY * velocity;
+		}
+
+		if (keyboardState[SDL_SCANCODE_A]) {
+			tempRotatedDirX = pDirX * cos(1.570796) - pDirY * sin(1.570796);
+			tempRotatedDirY = pDirX * sin(1.570796) + pDirY * cos(1.570796);
+
+			if (worldMap[(int)(pPosX + tempRotatedDirX * velocity)][(int)pPosY] == 0) pPosX += tempRotatedDirX * velocity;
+			if (worldMap[(int)pPosX][(int)(pPosY + tempRotatedDirY * velocity)] == 0) pPosY += tempRotatedDirY * velocity;
+		}
+
+		if (keyboardState[SDL_SCANCODE_S]) {
+			if (worldMap[(int)(pPosX - pDirX * velocity)][(int)pPosY] == 0) pPosX -= pDirX * velocity;
+			if (worldMap[(int)pPosX][(int)(pPosY - pDirY * velocity)] == 0) pPosY -= pDirY * velocity;
+		}
+
+		if (keyboardState[SDL_SCANCODE_D]) {
+			tempRotatedDirX = pDirX * cos(-1.570796) - pDirY * sin(-1.570796);
+			tempRotatedDirY = pDirX * sin(-1.570796) + pDirY * cos(-1.570796);
+
+			if (worldMap[(int)(pPosX + tempRotatedDirX * velocity)][(int)pPosY] == 0) pPosX += tempRotatedDirX * velocity;
+			if (worldMap[(int)pPosX][(int)(pPosY + tempRotatedDirY * velocity)] == 0) pPosY += tempRotatedDirY * velocity;
+		}
+
 		performRayCasting(pPosX, pPosY, pDirX, pDirY, cPlaneX, cPlaneY);
 
 		char dTime[sizeof(deltaTime)];
-		snprintf(dTime, sizeof(deltaTime), "%lf", 1 / deltaTime);
-
+		snprintf(dTime, sizeof(dTime), "%.2f", 1 / deltaTime);
 		drawText(dTime, 0, 0, (SDL_Color){255, 255, 255, 255});
 
 		render();
-
 	}
 	destroySDL();
 	return 0;
