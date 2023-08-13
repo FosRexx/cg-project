@@ -1,0 +1,4 @@
+.cache
+.vim
+build
+compile_commands.json
