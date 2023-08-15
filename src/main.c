@@ -88,7 +88,7 @@ int main(int argc, char **argv) {
 
 		char dTime[sizeof(deltaTime)];
 		snprintf(dTime, sizeof(dTime), "%.2f", 1 / deltaTime);
-		drawText(dTime, 0, 0, (SDL_Color){255, 255, 255, 255});
+		/* drawText(dTime, 0, 0, (SDL_Color){255, 255, 255, 255}); */
 
 		render();
 	}

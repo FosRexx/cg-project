@@ -15,6 +15,6 @@ bool initSDL();
 void destroySDL();
 void render();
 void drawPixel(int x, int y, SDL_Color color);
-void drawText(const char* text, int x, int y, SDL_Color color);
+/* void drawText(const char* text, int x, int y, SDL_Color color); */
 
 #endif

@@ -5,9 +5,10 @@ BUILD_DIR = ./build
 INCLUDE_DIR = ./include
 
 TARGET = $(BUILD_DIR)/cg-project
-SRCS = $(wildcard $(SRC_DIR)/**/*.c)
+SRCS = $(wildcard $(SRC_DIR)/*.c)
+SRCS += $(wildcard $(SRC_DIR)/**/*.c)
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRCS))
-LIBS = -lSDL2 -lm -ld
+LIBS = -lSDL2 -lm -ldl
 
 .PHONY: all clean
 
@@ -17,7 +18,7 @@ $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
-	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -c -o $@ $<
+	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
