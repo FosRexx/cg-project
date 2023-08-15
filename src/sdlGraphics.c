@@ -42,13 +42,11 @@ bool initSDL() {
 	/* 	fprintf(stderr, "Failed to load font: %s\n", SDL_GetError()); */
 
 	/* SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT); */
-	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	/* SDL_SetRelativeMouseMode(SDL_TRUE); */
 	/* SDL_ShowCursor(SDL_DISABLE); */
 
 	/* // Set background color to black */
 	/* SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); */
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	// Clear the entire screen to our selected color
 	render();
@@ -67,13 +65,9 @@ void destroySDL() {
 
 void render() {
 	SDL_GL_SwapWindow(window);
-	glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void drawPixel(int x, int y, SDL_Color color) {
-	glBegin(GL_POINTS);
-	glCOlor3f(color.r, color.g, color.b);
-	glVertex2f(x, y);
 	/* SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a); */
 	/* SDL_RenderDrawPoint(renderer, x, y); */
 	/* SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); */
