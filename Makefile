@@ -1,13 +1,13 @@
 CC = gcc
-CFLAGS = -Wall -g
+CFLAGS = -Wall -g -O2
 SRC_DIR = ./src
 BUILD_DIR = ./build
 INCLUDE_DIR = ./include
 
 TARGET = $(BUILD_DIR)/cg-project
-SRCS = $(wildcard $(SRC_DIR)/*.c)
+SRCS = $(wildcard $(SRC_DIR)/**/*.c)
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRCS))
-LIBS = -lSDL2 -lSDL2_ttf -lm
+LIBS = -lSDL2 -lm -ld
 
 .PHONY: all clean
 
