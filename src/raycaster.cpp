@@ -100,7 +100,11 @@ void performRayCasting(double pPosX, double pPosY, double pDirX, double pDirY, d
 		}
 
 		if (side == 1)
-			drawColor = (SDL_Color){drawColor.r / 2, drawColor.g / 2, drawColor.b / 2, drawColor.a / 2};
+			drawColor = (SDL_Color){static_cast<Uint8>(drawColor.r / 2),
+				static_cast<Uint8>(drawColor.g / 2), 
+				static_cast<Uint8>(drawColor.b / 2), 
+				static_cast<Uint8>(drawColor.a / 2)
+			};
 
 		drawVerLine(x, ystart, yend, drawColor);
 	}
