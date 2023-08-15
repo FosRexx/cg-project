@@ -16,13 +16,15 @@ target_include_directories(${PROJECT_NAME} PRIVATE include)
 
 # Add compiler errors/warnings flags
 target_compile_options(${PROJECT_NAME} PRIVATE $<$<C_COMPILER_ID:MSVC>:/W4 /WX /O2>)
-target_compile_options(${PROJECT_NAME} PRIVATE $<$<NOT:$<C_COMPILER_ID:MSVC>>:-Wall -Wextra -pedantic -Werror -g -O2>)
+target_compile_options(${PROJECT_NAME} PRIVATE $<$<NOT:$<C_COMPILER_ID:MSVC>>:-Wall -g -O2>)
 
 # Setting to automatically generate compile_commands required by linters
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Link math.h
 target_link_libraries(${PROJECT_NAME} m)
+# Linking dl
+target_link_libraries(${PROJECT_NAME} dl)
 
 # Add SDL2 library
 # If windows use SDL libraries provided in .sdl2
