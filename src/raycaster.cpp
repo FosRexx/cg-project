@@ -1,9 +1,13 @@
 #include "raycaster.h"
 
 
-void performRayCasting(double pPosX, double pPosY, double pDirX, double pDirY, double cPlaneX, double cPlaneY, 	std::vector<Uint32> (&texture)[8]){
-	std::cout << "MUJI" << std::endl;
+void performRayCasting(double pPosX, double pPosY, double pDirX, double pDirY, double cPlaneX, double cPlaneY){
+	std::vector<Uint32> texture[8];
+	for(int i = 0; i < 8; i++){
+		texture[i].resize(texWidth * texHeight);
+	}
 	uint32_t buffer[SCREEN_HEIGHT][SCREEN_WIDTH];
+	fprintf(stdout, "hello");
 	for(int x = 0; x < texWidth; x++)
 	for(int y = 0; y < texHeight; y++)
 	{
@@ -154,5 +158,6 @@ void performRayCasting(double pPosX, double pPosY, double pDirX, double pDirY, d
 		// 	};
 
 		drawVerLine(x, ystart, yend, buffer);
+		
 	}
 }

@@ -1,10 +1,10 @@
-#include "sdlGraphics.h"
-#include "raycaster.h"
-#include "worldMap.h"
 #include<stdio.h>
 #include <math.h>
 #include<vector>
 #include<iostream>
+#include "sdlGraphics.h"
+#include "raycaster.h"
+#include "worldMap.h"
 
 
 int main(int argc, char **argv) {
@@ -25,13 +25,6 @@ int main(int argc, char **argv) {
 	bool isSDLInit = initSDL();
 
 	const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
-	std::vector<Uint32> texture[8];
-
-	for(int i = 0; i < 8; i++){
-		texture[i].resize(texWidth * texHeight);
-	}
-
-
 	previousTime = SDL_GetTicks();
 	while (isSDLInit && isRunning) {
 		currentTime = SDL_GetTicks();
@@ -92,7 +85,8 @@ int main(int argc, char **argv) {
 			if (worldMap[(int)(pPosX + tempRotatedDirX * velocity)][(int)pPosY] == 0) pPosX += tempRotatedDirX * velocity;
 			if (worldMap[(int)pPosX][(int)(pPosY + tempRotatedDirY * velocity)] == 0) pPosY += tempRotatedDirY * velocity;
 		}
-		performRayCasting(pPosX, pPosY, pDirX, pDirY, cPlaneX, cPlaneY, texture);
+		std::cout<<"Here" << std::endl;
+		performRayCasting(pPosX, pPosY, pDirX, pDirY, cPlaneX, cPlaneY);
 
 		char dTime[sizeof(deltaTime)];
 		snprintf(dTime, sizeof(dTime), "%.2f", 1 / deltaTime);

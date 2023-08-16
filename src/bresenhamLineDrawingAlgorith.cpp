@@ -64,4 +64,10 @@ void drawVerLine(int xstart, int ystart, int yend, uint32_t buffer[][SCREEN_WIDT
 			ystart += 1;
 		}
 	}
+	for(int x = 0; x < 720; x++)
+	{
+		for(int y = 0; y < 1280; y++){
+			buffer[x][y] = 0;
+		}
+	}
 }
