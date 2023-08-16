@@ -66,6 +66,7 @@ void destroySDL() {
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	TTF_Quit();
+	IMG_Quit();
 	SDL_Quit();
 }
 
@@ -137,16 +138,15 @@ void loadTextureData(std::vector<uint32_t>& texture, const char* imagePath) {
 	int texWidth = surface->w;
 	int texHeight = surface->h;
 
-	// Assuming that the texture vector is already resized to texWidth * texHeight
-	Uint32* pixels = static_cast<Uint32*>(surface->pixels);
-	for (int i = 0; i < texWidth * texHeight; i++) {
-		Uint8 r, g, b, a;
-		SDL_GetRGBA(pixels[i], surface->format, &r, &g, &b, &a);
+	texture.resize(texWidth * texHeight);
 
-		// Combine the color channels into a single integer
-		uint32_t color = 0x1000000 * r + 0x10000 * g + 0x100 * b + a;
-
-		texture[i] = color;
+    for (int y = 0; y < texHeight; ++y) {
+		for (int x = 0; x < texWidth; ++x)
+		{
+			Uint8* pixel = (Uint8*)surface->pixels + y * surface->pitch + x * surface->format->BytesPerPixel;
+			Uint32 color = SDL_MapRGBA(surface->format, pixel[0], pixel[1], pixel[2], pixel[3]);
+			texture[y * texWidth + x] = color;
+		}
 	}
 
 	SDL_FreeSurface(surface);
