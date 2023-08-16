@@ -5,6 +5,6 @@
 
 #include "sdlGraphics.h"
 
-void drawVerLine(int xstart, int ystart, int yend, SDL_Color color);
+void drawVerLine(int xstart, int ystart, int yend, uint32_t buffer[][SCREEN_WIDTH]);
 
 #endif
