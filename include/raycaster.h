@@ -1,14 +1,19 @@
 #ifndef RAYCASTER_H
 #define RAYCASTER_H
+
 #define texWidth 64
 #define texHeight 64
+
+#include <vector>
 
 #include "sdlGraphics.h"
 #include "worldMap.h"
 #include "bresenhamLineDrawingAlgorith.h"
-#include<math.h>
-#include<iostream>
-#include<vector>
+
+extern uint32_t buffer[SCREEN_HEIGHT][SCREEN_WIDTH];
+extern std::vector<int> texture[8];
+
+void generateTextures();
 
 void performRayCasting(double pPosX, double pPosY, double pDirX, double pDirY, double cPlaneX, double cPlaneY);
 

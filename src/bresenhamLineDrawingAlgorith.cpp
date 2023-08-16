@@ -1,8 +1,7 @@
 #include "bresenhamLineDrawingAlgorith.h"
 
-void drawVerLine(int xstart, int ystart, int yend, uint32_t buffer[][SCREEN_WIDTH]){
+void drawVerLine(int xstart, int ystart, int yend, SDL_Color color) {
 	int labelx = 0, labely = 0;
-	uint32_t color;
 	float delx = 0, dely = 0;
 	float p, x, y;
 
@@ -15,12 +14,14 @@ void drawVerLine(int xstart, int ystart, int yend, uint32_t buffer[][SCREEN_WIDT
 	/* 	labelx = -1; */
 	labelx = -1;
 
-	if (yend > ystart) 
+	if (yend > ystart)
 		labely = 1;
 	else
 		labely = -1;
 
 	x = xstart, y = ystart;
+
+	drawPixel(x, y, color);
 
 	if (delx > dely) {
 		p = 2 * dely - delx;
@@ -34,14 +35,7 @@ void drawVerLine(int xstart, int ystart, int yend, uint32_t buffer[][SCREEN_WIDT
 				y = y + labely;
 				p = p + 2 * dely - 2 * delx;
 			}
-			//i dont know wtf i just did 
-			color = buffer[ystart][xstart];
-			uint8_t byte1 = (color >> 16) & 0xFF;
-    		uint8_t byte2 = (color >> 8) & 0xFF;
-    		uint8_t byte3 = color & 0xFF;
-			SDL_Color Scolor = {byte1, byte2, byte3, 255};
-			drawPixel(x, y, Scolor);
-			ystart += 1;
+			drawPixel(x, y, color);
 		}
 	} else {
 		p = 2 * delx - dely;
@@ -55,19 +49,7 @@ void drawVerLine(int xstart, int ystart, int yend, uint32_t buffer[][SCREEN_WIDT
 				y = y + labely;
 				p = p + 2 * delx - 2 * dely;
 			}
-			color = buffer[xstart][ystart];
-			uint8_t byte1 = (color >> 16) & 0xFF;
-    		uint8_t byte2 = (color >> 8) & 0xFF;
-    		uint8_t byte3 = color & 0xFF;
-			SDL_Color Scolor = {byte1, byte2, byte3, 255};
-			drawPixel(x, y, Scolor);
-			ystart += 1;
-		}
-	}
-	for(int x = 0; x < 720; x++)
-	{
-		for(int y = 0; y < 1280; y++){
-			buffer[x][y] = 0;
+			drawPixel(x, y, color);
 		}
 	}
 }

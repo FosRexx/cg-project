@@ -1,7 +1,6 @@
-#include<stdio.h>
+#include <iostream>
 #include <math.h>
-#include<vector>
-#include<iostream>
+
 #include "sdlGraphics.h"
 #include "raycaster.h"
 #include "worldMap.h"
@@ -23,6 +22,8 @@ int main(int argc, char **argv) {
 	double deltaTime = 0;
 
 	bool isSDLInit = initSDL();
+
+	generateTextures();
 
 	const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
 	previousTime = SDL_GetTicks();
@@ -85,8 +86,12 @@ int main(int argc, char **argv) {
 			if (worldMap[(int)(pPosX + tempRotatedDirX * velocity)][(int)pPosY] == 0) pPosX += tempRotatedDirX * velocity;
 			if (worldMap[(int)pPosX][(int)(pPosY + tempRotatedDirY * velocity)] == 0) pPosY += tempRotatedDirY * velocity;
 		}
-		std::cout<<"Here" << std::endl;
+
 		performRayCasting(pPosX, pPosY, pDirX, pDirY, cPlaneX, cPlaneY);
+
+		drawBuffer(buffer[0]);
+		/* for(int y = 0; y < SCREEN_HEIGHT; y++) for(int x = 0; x < SCREEN_WIDTH; x++) buffer[y][x] = 0; //clear the buffer */
+
 
 		char dTime[sizeof(deltaTime)];
 		snprintf(dTime, sizeof(dTime), "%.2f", 1 / deltaTime);
