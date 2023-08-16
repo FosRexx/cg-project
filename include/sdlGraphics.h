@@ -17,8 +17,8 @@ bool initSDL();
 void destroySDL();
 void render();
 void drawPixel(int x, int y, SDL_Color color);
-void drawBuffer(uint32_t *buffer);
+void drawBuffer(uint32_t* buffer);
 void drawText(const char* text, int x, int y, SDL_Color color);
-void loadTextureData(std::vector<int>& texture, const char* imagePath);
+void loadTextureData(std::vector<uint32_t>& texture, const char* imagePath);
 
 #endif

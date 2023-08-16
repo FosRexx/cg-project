@@ -80,45 +80,34 @@ void drawPixel(int x, int y, SDL_Color color) {
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 }
 
-/* void drawBuffer(uint32_t *buffer) { */
-/* 	// Create texturek */
-/* 	SDL_Texture* texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STATIC, SCREEN_WIDTH, SCREEN_HEIGHT); */
-/* 	if (texture != NULL) { */
-/* 		// Lock texture */
-/* 		void *pixels = NULL; */
-/* 		int pitch = 0; */
-/* 		SDL_LockTexture(texture, NULL, &pixels, &pitch); */
+//Draws a buffer of pixels to the screen
+void drawBuffer(uint32_t* buffer) {
+	SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormat(0, SCREEN_WIDTH, SCREEN_HEIGHT, 32, SDL_PIXELFORMAT_RGB888);
+	if (!surface) {
+		fprintf(stderr, "Failed to create SDL Surface: %s\n", SDL_GetError());
+		return;
+	}
 
-/* 		// Copy buffer to texture */
-/* 		memcpy(pixels, buffer, pitch * SCREEN_HEIGHT); */
+	uint32_t* bufp = (uint32_t*)surface->pixels;
 
-/* 		// Unlock texture */
-/* 		SDL_UnlockTexture(texture); */
+	for(int y = 0; y < SCREEN_HEIGHT; y++)
+	{
+		for(int x = 0; x < SCREEN_WIDTH; x++)
+		{
+			*bufp = buffer[y * SCREEN_WIDTH + x];
+			bufp++;
+		}
+		bufp = (uint32_t*)((Uint8*)bufp + surface->pitch - SCREEN_WIDTH * sizeof(uint32_t));}
 
-/* 		// Clear renderer and render texture */
-/* 		SDL_RenderCopy(renderer, texture, NULL, NULL); */
+	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+	if (!texture) {
+		SDL_FreeSurface(surface);
+		fprintf(stderr, "Failed to create texture: %s\n", SDL_GetError());
+		return;
+	}
 
-/* 		/1* fprintf(stdout, "Here"); *1/ */
-/* 		/1* render(); *1/ */
-
-/* 		SDL_DestroyTexture(texture); */
-/* 	} */
-/* } */
-
-void drawBuffer(Uint32 *buffer) {
-	// Create a SDL surface using the provided buffer
-	SDL_Surface *surface = SDL_CreateRGBSurfaceFrom(buffer, SCREEN_WIDTH, SCREEN_HEIGHT, 32, SCREEN_WIDTH * sizeof(Uint32), 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
-
-	// Create a SDL texture from the surface
-	SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
-
-	// Clear the screen
-	SDL_RenderClear(renderer);
-
-	// Copy the texture to the renderer
 	SDL_RenderCopy(renderer, texture, NULL, NULL);
 
-	// Clean up
 	SDL_DestroyTexture(texture);
 	SDL_FreeSurface(surface);
 }
@@ -137,7 +126,7 @@ void drawText(const char *text, int x, int y, SDL_Color color) {
 }
 
 // Function to load an image into a vector<int> (texture)
-void loadTextureData(std::vector<int>& texture, const char* imagePath) {
+void loadTextureData(std::vector<uint32_t>& texture, const char* imagePath) {
 	SDL_Surface* surface = IMG_Load(imagePath);
 	if (!surface) {
 		fprintf(stderr, "Failed to create surface: %s\n", SDL_GetError());
@@ -155,7 +144,7 @@ void loadTextureData(std::vector<int>& texture, const char* imagePath) {
 		SDL_GetRGBA(pixels[i], surface->format, &r, &g, &b, &a);
 
 		// Combine the color channels into a single integer
-		int color = (r << 16) | (g << 8) | b;
+		uint32_t color = 0x1000000 * r + 0x10000 * g + 0x100 * b + a;
 
 		texture[i] = color;
 	}

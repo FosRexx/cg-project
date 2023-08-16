@@ -5,13 +5,14 @@
 #include "raycaster.h"
 #include "worldMap.h"
 
-
 int main(int argc, char **argv) {
 	(void) argc;
 	(void) argv;
 
+	generateTextures();
+
 	// Position of player
-	double pPosX = 12, pPosY = 12;
+	double pPosX = 4, pPosY = 2;
 	// Direction the player is looking in
 	double pDirX = -1, pDirY = 0;
 	// Vector of camera plane
@@ -23,18 +24,12 @@ int main(int argc, char **argv) {
 
 	bool isSDLInit = initSDL();
 
-	generateTextures();
-
 	const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
 	previousTime = SDL_GetTicks();
 	while (isSDLInit && isRunning) {
 		currentTime = SDL_GetTicks();
 		deltaTime = (currentTime - previousTime) / 1000.0;
 		previousTime = SDL_GetTicks();
-
-		double velocity = 5 * deltaTime; // Pixels/second
-
-		double tempRotatedDirX = 0, tempRotatedDirY = 0;
 
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
@@ -61,6 +56,10 @@ int main(int argc, char **argv) {
 		}
 
 		// Movement
+		double velocity = 5 * deltaTime; // Pixels/second
+
+		double tempRotatedDirX = 0, tempRotatedDirY = 0;
+
 		if (keyboardState[SDL_SCANCODE_W]) {
 			if (worldMap[(int)(pPosX + pDirX * velocity)][(int)pPosY] == 0) pPosX += pDirX * velocity;
 			if (worldMap[(int)pPosX][(int)(pPosY + pDirY * velocity)] == 0) pPosY += pDirY * velocity;
@@ -88,10 +87,6 @@ int main(int argc, char **argv) {
 		}
 
 		performRayCasting(pPosX, pPosY, pDirX, pDirY, cPlaneX, cPlaneY);
-
-		drawBuffer(buffer[0]);
-		/* for(int y = 0; y < SCREEN_HEIGHT; y++) for(int x = 0; x < SCREEN_WIDTH; x++) buffer[y][x] = 0; //clear the buffer */
-
 
 		char dTime[sizeof(deltaTime)];
 		snprintf(dTime, sizeof(dTime), "%.2f", 1 / deltaTime);

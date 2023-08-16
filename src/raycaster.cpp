@@ -1,7 +1,7 @@
 #include "raycaster.h"
 
 uint32_t buffer[SCREEN_HEIGHT][SCREEN_WIDTH];
-std::vector<int> texture[8];
+std::vector<uint32_t> texture[8];
 
 void generateTextures() {
 	for(int i = 0; i < 8; i++){
@@ -9,31 +9,31 @@ void generateTextures() {
 	}
 
 	// Generate some textures
-	loadTextureData(texture[0], "../res/textures/eagle.png");
-	loadTextureData(texture[1], "../res/textures/redbrick.png");
-	loadTextureData(texture[2], "../res/textures/purplestone.png");
-	loadTextureData(texture[3], "../res/textures/greystone.png");
-	loadTextureData(texture[4], "../res/textures/bluestone.png");
-	loadTextureData(texture[5], "../res/textures/mossy.png");
-	loadTextureData(texture[6], "../res/textures/wood.png");
-	loadTextureData(texture[7], "../res/textures/colorstone.png");
-	/* for(int x = 0; x < texWidth; x++) */
-	/* 	for(int y = 0; y < texHeight; y++) */
-	/* 	{ */
-	/* 		int xorcolor = (x * 256 / texWidth) ^ (y * 256 / texHeight); */
-	/* 		//int xcolor = x * 256 / texWidth; */
-	/* 		int ycolor = y * 256 / texHeight; */
-	/* 		int xycolor = y * 128 / texHeight + x * 128 / texWidth; */
-	/* 		texture[0][texWidth * y + x] = 65536 * 254 * (x != y && x != texWidth - y); //flat red texture with black cross */
-	/* 		texture[1][texWidth * y + x] = xycolor + 256 * xycolor + 65536 * xycolor; //sloped greyscale */
-	/* 		texture[2][texWidth * y + x] = 256 * xycolor + 65536 * xycolor; //sloped yellow gradient */
-	/* 		texture[3][texWidth * y + x] = xorcolor + 256 * xorcolor + 65536 * xorcolor; //xor greyscale */
-	/* 		texture[4][texWidth * y + x] = 256 * xorcolor; //xor green */
-	/* 		texture[5][texWidth * y + x] = 65536 * 192 * (x % 16 && y % 16); //red bricks */
-	/* 		texture[6][texWidth * y + x] = 65536 * ycolor; //red gradient */
-	/* 		texture[7][texWidth * y + x] = 128 + 256 * 128 + 65536 * 128; //flat grey texture */
-	/* 	} */
-
+	/* loadTextureData(texture[0], "../res/textures/eagle.png"); */
+	/* loadTextureData(texture[1], "../res/textures/redbrick.png"); */
+	/* loadTextureData(texture[2], "../res/textures/purplestone.png"); */
+	/* loadTextureData(texture[3], "../res/textures/greystone.png"); */
+	/* loadTextureData(texture[4], "../res/textures/bluestone.png"); */
+	/* loadTextureData(texture[5], "../res/textures/mossy.png"); */
+	/* loadTextureData(texture[6], "../res/textures/wood.png"); */
+	/* loadTextureData(texture[7], "../res/textures/colorstone.png"); */
+	for(int x = 0; x < texWidth; x++) {
+		for(int y = 0; y < texHeight; y++)
+		{
+			int xorcolor = (x * 256 / texWidth) ^ (y * 256 / texHeight);
+			//int xcolor = x * 256 / texWidth;
+			int ycolor = y * 256 / texHeight;
+			int xycolor = y * 128 / texHeight + x * 128 / texWidth;
+			texture[0][texWidth * y + x] = 65536 * 254 * (x != y && x != texWidth - y); //flat red texture with black cross
+			texture[1][texWidth * y + x] = xycolor + 256 * xycolor + 65536 * xycolor; //sloped greyscale
+			texture[2][texWidth * y + x] = 256 * xycolor + 65536 * xycolor; //sloped yellow gradient
+			texture[3][texWidth * y + x] = xorcolor + 256 * xorcolor + 65536 * xorcolor; //xor greyscale
+			texture[4][texWidth * y + x] = 256 * xorcolor; //xor green
+			texture[5][texWidth * y + x] = 65536 * 192 * (x % 16 && y % 16); //red bricks
+			texture[6][texWidth * y + x] = 65536 * ycolor; //red gradient
+			texture[7][texWidth * y + x] = 128 + 256 * 128 + 65536 * 128; //flat grey texture
+		}
+	}
 }
 
 void performRayCasting(double pPosX, double pPosY, double pDirX, double pDirY, double cPlaneX, double cPlaneY){
@@ -109,12 +109,16 @@ void performRayCasting(double pPosX, double pPosY, double pDirX, double pDirY, d
 		if (side == 0) perpWallDist = (rayLengthX - rayUnitLengthX);
 		else 		   perpWallDist = (rayLengthY - rayUnitLengthY);
 
-		int lineHeight = (int)(SCREEN_HEIGHT * 2 / perpWallDist); // Height of line to be drawn on screen
+		int lineHeight = (int)(SCREEN_HEIGHT / perpWallDist); // Height of line to be drawn on screen
 
-		int ystart = SCREEN_HEIGHT / 2 - lineHeight / 2 ;
+		int ystart = SCREEN_HEIGHT / 2 - lineHeight / 2;
 		if (ystart < 0) ystart = 0;
-		int yend = SCREEN_HEIGHT / 2 + lineHeight / 2 ;
+		int yend = SCREEN_HEIGHT / 2 + lineHeight / 2;
 		if (yend >= SCREEN_HEIGHT) yend = SCREEN_HEIGHT - 1;
+
+
+
+
 
 		//texturing calculations
 		int textNum = worldMap[posRayInMapX][posRayInMapY] - 1;
@@ -148,9 +152,6 @@ void performRayCasting(double pPosX, double pPosY, double pDirX, double pDirY, d
 			buffer[y][x] = color;
 		}
 
-		/* drawBuffer(&buffer[0][0]); */
-		/* for(int y = 0; y < SCREEN_HEIGHT; y++) for(int x = 0; x < SCREEN_WIDTH; x++) buffer[y][x] = 0; //clear the buffer */
-
 		/* SDL_Color drawColor = {255, 255, 255, 255}; */
 		/* switch (worldMap[posRayInMapX][posRayInMapY]) { */
 		/* 	case 1: */ 
@@ -179,4 +180,7 @@ void performRayCasting(double pPosX, double pPosY, double pDirX, double pDirY, d
 
 		/* drawVerLine(x, ystart, yend, drawColor); */
 	}
+
+	drawBuffer(buffer[0]);
+	for(int y = 0; y < SCREEN_HEIGHT; y++) for(int x = 0; x < SCREEN_WIDTH; x++) buffer[y][x] = 0; //clear the buffer
 }
