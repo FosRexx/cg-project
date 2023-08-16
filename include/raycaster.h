@@ -5,7 +5,7 @@
 #define texHeight 64
 
 #include <vector>
-
+#include<math.h>
 #include "sdlGraphics.h"
 #include "worldMap.h"
 #include "bresenhamLineDrawingAlgorith.h"
