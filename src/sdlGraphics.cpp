@@ -1,9 +1,7 @@
 #include "sdlGraphics.h"
 
 SDL_Window* window;
-SDL_Renderer* renderer;
-
-TTF_Font* font;
+SDL_GLContext glContext;
 
 bool isRunning = true;
 
@@ -14,39 +12,40 @@ bool initSDL() {
 		return false;
 	}
 
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
 
-	window = SDL_CreateWindow("CG Project", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+	window = SDL_CreateWindow("CG Project", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
 	if (!window) {
 		fprintf(stderr, "Failed to initialize SDL window: %s\n", SDL_GetError());
 		return false;
 	}
 
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-	if (!renderer) {
-		fprintf(stderr, "Failed to initialize SDL renderer: %s\n", SDL_GetError());
+	glContext = SDL_GL_CreateContext(window);
+	if (!window) {
+		fprintf(stderr, "Failed to create GL Context: %s\n", SDL_GetError());
 		return false;
 	}
 
-	font = TTF_OpenFont("/usr/share/fonts/TTF/DejaVuSans.ttf", 18);
-	if (font == NULL) 
-		fprintf(stderr, "Failed to load font: %s\n", SDL_GetError());
-
-	SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
-	SDL_SetRelativeMouseMode(SDL_TRUE);
-	SDL_ShowCursor(SDL_DISABLE);
+	/* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED); */
+	/* if (!renderer) { */
+	/* 	fprintf(stderr, "Failed to initialize SDL renderer: %s\n", SDL_GetError()); */
+	/* 	return false; */
+	/* } */
 
 	/* font = TTF_OpenFont("/usr/share/fonts/TTF/DejaVuSans.ttf", 18); */
 	/* if (font == NULL) */ 
 	/* 	fprintf(stderr, "Failed to load font: %s\n", SDL_GetError()); */
 
 	/* SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT); */
+	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	/* SDL_SetRelativeMouseMode(SDL_TRUE); */
 	/* SDL_ShowCursor(SDL_DISABLE); */
 
 	/* // Set background color to black */
 	/* SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); */
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	// Clear the entire screen to our selected color
 	render();
@@ -56,8 +55,9 @@ bool initSDL() {
 }
 
 void destroySDL() {
-	TTF_CloseFont(font);
-	SDL_DestroyRenderer(renderer);
+	/* TTF_CloseFont(font); */
+	/* SDL_DestroyRenderer(renderer); */
+	SDL_GL_DeleteContext(glContext);
 	SDL_DestroyWindow(window);
 	TTF_Quit();
 	SDL_Quit();
@@ -65,12 +65,18 @@ void destroySDL() {
 
 void render() {
 	SDL_GL_SwapWindow(window);
+	glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void drawPixel(int x, int y, SDL_Color color) {
 	/* SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a); */
 	/* SDL_RenderDrawPoint(renderer, x, y); */
 	/* SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); */
+	glPointSize(1.0f);
+	glBegin(GL_POINTS);
+	glColor3f(color.r, color.g, color.b);
+	glVertex2i(x, y);
+	glEnd();
 }
 
 void drawText(const char *text, int x, int y, SDL_Color color) {

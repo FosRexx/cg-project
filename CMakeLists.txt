@@ -23,8 +23,10 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Link math.h
 target_link_libraries(${PROJECT_NAME} m)
-# Linking dl
 target_link_libraries(${PROJECT_NAME} dl)
+
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/cmake/glad/)
+target_link_libraries(${PROJECT_NAME} glad)
 
 # Add SDL2 library
 # If windows use SDL libraries provided in .sdl2
