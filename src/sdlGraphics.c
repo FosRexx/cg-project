@@ -1,4 +1,5 @@
 #include "sdlGraphics.h"
+#include <stdio.h>
 
 SDL_Window* window;
 SDL_Renderer* renderer;
@@ -32,7 +33,7 @@ bool initSDL() {
 		return false;
 	}
 
-	font = TTF_OpenFont("/usr/share/fonts/TTF/DejaVuSans.ttf", 18);
+	font = TTF_OpenFont("../res/fonts/BeckyTahlia-MP6r.ttf", 18);
 	if (font == NULL) 
 		fprintf(stderr, "Failed to load font: %s\n", SDL_GetError());
 

@@ -1,9 +1,11 @@
 #include "sdlGraphics.h"
 #include "raycaster.h"
 #include "worldMap.h"
-
+#include<stdio.h>
 #include <math.h>
 
+#define SCREEN_WIDTH 1280
+#define SCREEN_HEIGHT 720
 
 int main(int argc, char **argv) {
 	(void) argc;
@@ -24,6 +26,9 @@ int main(int argc, char **argv) {
 
 	const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
 
+	Uint32 buffer[SCREEN_HEIGHT][SCREEN_WIDTH];
+	Uint32 texture[8];
+	
 	previousTime = SDL_GetTicks();
 	while (isSDLInit && isRunning) {
 		currentTime = SDL_GetTicks();
