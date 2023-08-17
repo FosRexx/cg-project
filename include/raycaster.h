@@ -11,7 +11,7 @@
 #include "bresenhamLineDrawingAlgorith.h"
 
 extern uint32_t buffer[SCREEN_HEIGHT][SCREEN_WIDTH];
-extern std::vector<uint32_t> texture[8];
+extern std::vector<uint32_t> texture[10];
 
 void generateTextures();
 

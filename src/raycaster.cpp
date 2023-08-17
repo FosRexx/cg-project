@@ -1,10 +1,10 @@
 #include "raycaster.h"
 
 uint32_t buffer[SCREEN_HEIGHT][SCREEN_WIDTH];
-std::vector<uint32_t> texture[8];
+std::vector<uint32_t> texture[10];
 
 void generateTextures() {
-	for(int i = 0; i < 8; i++){
+	for(int i = 0; i < 10; i++){
 		texture[i].resize(texWidth * texHeight);
 	}
 
@@ -17,6 +17,8 @@ void generateTextures() {
 	loadTextureData(texture[5], "../res/textures/mossy.png");
 	loadTextureData(texture[6], "../res/textures/wood.png");
 	loadTextureData(texture[7], "../res/textures/colorstone.png");
+	loadTextureData(texture[8], "../res/textures/floor.png");
+	loadTextureData(texture[9], "../res/textures/celling.png");
 	/* for(int x = 0; x < texWidth; x++) { */
 	/* 	for(int y = 0; y < texHeight; y++) */
 	/* 	{ */
@@ -38,62 +40,62 @@ void generateTextures() {
 
 void performRayCasting(double pPosX, double pPosY, double pDirX, double pDirY, double cPlaneX, double cPlaneY){
 	//floor CASTING
-	/* for(int y = 0; y < SCREEN_HEIGHT; y ++) */
-	/* { */
-	/* 	float rayDirX0 = pDirX - cPlaneX; */
-	/* 	float rayDirY0 = pDirY - cPlaneY; */
-	/* 	float rayDirX1 = pDirX + cPlaneY; */
-	/* 	float rayDirY1 = pDirY - cPlaneY; */
-	/* 	//current y position compared to the center of the screen (the horizon) */
+	for(int y = 0; y < SCREEN_HEIGHT; y ++)
+	{
+		float rayDirX0 = pDirX - cPlaneX;
+		float rayDirY0 = pDirY - cPlaneY;
+		float rayDirX1 = pDirX + cPlaneY;
+		float rayDirY1 = pDirY - cPlaneY;
+		//current y position compared to the center of the screen (the horizon)
 
-	/* 	int p = y - SCREEN_HEIGHT / 2; */
-	/* 	float posZ = 0.5 * SCREEN_HEIGHT; */
+		int p = y - SCREEN_HEIGHT / 2;
+		float posZ = 0.5 * SCREEN_HEIGHT;
 
-	/* 	// Horizontal distance from the camera to the floor for the current row. */
-	/* 	// 0.5 is the z position exactly in the middle between floor and ceiling. */
+		// Horizontal distance from the camera to the floor for the current row.
+		// 0.5 is the z position exactly in the middle between floor and ceiling.
 
-	/* 	float rowDistance = posZ / p; */
+		float rowDistance = posZ / p;
 
-	/* 	// calculate the real world step vector we have to add for each x (parallel to camera plane) */
-	/* 	// adding step by step avoids multiplications with a weight in the inner loop */
+		// calculate the real world step vector we have to add for each x (parallel to camera plane)
+		// adding step by step avoids multiplications with a weight in the inner loop
 
-	/* 	float floorStepX = rowDistance * (rayDirX1 - rayDirX0) / SCREEN_WIDTH; */
-	/* 	float floorStepY = rowDistance * (rayDirY1 - rayDirY0) / SCREEN_WIDTH; */
+		float floorStepX = rowDistance * (rayDirX1 - rayDirX0) / SCREEN_WIDTH;
+		float floorStepY = rowDistance * (rayDirY1 - rayDirY0) / SCREEN_WIDTH;
 
-	/* 	// real world coordinates of the leftmost column. This will be updated as we step to the right. */
+		// real world coordinates of the leftmost column. This will be updated as we step to the right.
 
-	/* 	float floorX = pPosX + rowDistance * rayDirX0; */
-	/* 	float floorY = pPosY + rowDistance * rayDirY0; */
+		float floorX = pPosX + rowDistance * rayDirX0;
+		float floorY = pPosY + rowDistance * rayDirY0;
 
-	/* 	for(int x = 0; x < SCREEN_WIDTH; ++x) */
-	/* 	{ */
-	/* 		// the cell coord is simply got from the integer parts of floorX and floorY */
-	/* 		int cellX = (int)(floorX); */
-	/* 		int cellY = (int)(floorY); */
+		for(int x = 0; x < SCREEN_WIDTH; ++x)
+		{
+			// the cell coord is simply got from the integer parts of floorX and floorY
+			int cellX = (int)(floorX);
+			int cellY = (int)(floorY);
 
-	/* 		// get the texture coordinate from the fractional part */
-	/* 		int tx = (int)(texWidth * (floorX - cellX)) & (texWidth - 1); */
-	/* 		int ty = (int)(texHeight * (floorY - cellY)) & (texHeight - 1); */
+			// get the texture coordinate from the fractional part
+			int tx = (int)(texWidth * (floorX - cellX)) & (texWidth - 1);
+			int ty = (int)(texHeight * (floorY - cellY)) & (texHeight - 1);
 
-	/* 		floorX += floorStepX; */
-	/* 		floorY += floorStepY; */
+			floorX += floorStepX;
+			floorY += floorStepY;
 
-	/* 		// choose texture and draw the pixel */
-	/* 		int floorTexture = 3; */
-	/* 		int ceilingTexture = 5; */
-	/* 		Uint32 color; */
+			// choose texture and draw the pixel
+			int floorTexture = 8;
+			int ceilingTexture = 9;
+			Uint32 color;
 
-	/* 		// floor */
-	/* 		color = texture[floorTexture][texWidth * ty + tx]; */
-	/* 		color = (color >> 1) & 8355711; // make a bit darker */
-	/* 		buffer[y][x] = color; */
+			// floor
+			color = texture[floorTexture][texWidth * ty + tx];
+			color = (color >> 1) & 8355711; // make a bit darker
+			buffer[y][x] = color;
 
-	/* 		//ceiling (symmetrical, at screenHeight - y - 1 instead of y) */
-	/* 		color = texture[ceilingTexture][texWidth * ty + tx]; */
-	/* 		color = (color >> 1) & 8355711; // make a bit darker */
-	/* 		buffer[SCREEN_HEIGHT - y - 1][x] = color; */
-	/* 	} */
-	/* } */
+			//ceiling (symmetrical, at screenHeight - y - 1 instead of y)
+			color = texture[ceilingTexture][texWidth * ty + tx];
+			color = (color >> 1) & 8355711; // make a bit darker
+			buffer[SCREEN_HEIGHT - y - 1][x] = color;
+		}
+	}
 
 	// Looping through ever columns in screen
 	for (int x = 0; x < SCREEN_WIDTH; x++) {
