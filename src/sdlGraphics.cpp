@@ -43,7 +43,7 @@ bool initSDL() {
 		return false;
 	}
 
-	font = TTF_OpenFont("../res/fonts/BeckyTahlia-MP6r.ttf", 18);
+	font = TTF_OpenFont("/usr/share/fonts/TTF/DejaVuSans.ttf", 18);
 	if (font == NULL) 
 		fprintf(stderr, "Failed to load font: %s\n", SDL_GetError());
 
@@ -52,7 +52,7 @@ bool initSDL() {
 	SDL_ShowCursor(SDL_DISABLE);
 
 	// Set background color to black
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	SDL_SetRenderDrawColor(renderer, 192, 192, 192, 255);
 
 	// Clear the entire screen to our selected color
 	render();
@@ -78,7 +78,7 @@ void render() {
 void drawPixel(int x, int y, SDL_Color color) {
 	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 	SDL_RenderDrawPoint(renderer, x, y);
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	SDL_SetRenderDrawColor(renderer, 192, 192, 192, 255);
 }
 
 //Draws a buffer of pixels to the screen

@@ -41,7 +41,7 @@ int main(int argc, char **argv) {
 					{
 						int mouseMoveX = -event.motion.xrel;
 						
-						double rotationSpeed = mouseMoveX * deltaTime * 0.1;
+						double rotationSpeed = mouseMoveX * deltaTime * 0.5;
 
 						double oldDirX = pDirX;
 						pDirX = pDirX * cos(rotationSpeed) - pDirY * sin(rotationSpeed);
