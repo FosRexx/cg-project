@@ -32,7 +32,7 @@ bool initSDL() {
 		return false;
 	}
 
-	font = TTF_OpenFont("/usr/share/fonts/TTF/DejaVuSans.ttf", 18);
+	font = TTF_OpenFont("../res/fonts/HackNerdFont-Regular.ttf", 18);
 	if (font == NULL) 
 		fprintf(stderr, "Failed to load font: %s\n", SDL_GetError());
 
