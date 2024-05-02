@@ -37,5 +37,4 @@ make
 ```
 
 ## Group Members
-[![](https://github.com/FosRexx.png?size=50)](https://github.com/FosRexx)
-[![](https://github.com/MilanRegmiGitH.png?size=50)](https://github.com/MilanRegmiGitH)
+[<img src="https://github.com/{{ FosRexx }}.png" width="60px;"/><br /><sub><ahref="https://github.com/{{ FosRexx }}">{{ FosRexx }}</a></sub>](https://github.com/{{ FosRexx }}/{{ cg-project }}
