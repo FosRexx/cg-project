@@ -6,6 +6,7 @@ https://github.com/FosRexx/cg-project/assets/105154048/ba6894d9-a238-4e63-9089-c
 
 *Raycasting along with Bresenham's line drawing algorithm*
 
+
 https://github.com/FosRexx/cg-project/assets/105154048/8ca4f40a-ddb2-442e-ab83-6ecb68c914e0
 
 *Raycasting but with textured walls insted of just colored lines*
@@ -36,5 +37,5 @@ make
 ```
 
 ## Group Members
-[![](https://avatars.githubusercontent.com/u/105154048?v=4&size=50)](https://github.com/FosRexx)
-[![](https://avatars.githubusercontent.com/u/109144980?v=4&size=50)](https://github.com/MilanRegmiGitH)
+[![](https://avatars.githubusercontent.com/u/105154048?v=4&size=5)](https://github.com/FosRexx)
+[![](https://avatars.githubusercontent.com/u/109144980?v=4&size=5)](https://github.com/MilanRegmiGitH)
