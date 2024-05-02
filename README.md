@@ -37,4 +37,6 @@ make
 ```
 
 ## Group Members
-[<img src="https://github.com/FosRexx.png" width="60px;"/><sub><ahref="https://github.com/FosRexx">FosRexx</a></sub>](https://github.com/FosRexx)
+[<img src="https://github.com/FosRexx.png" width="60px;"/><ahref="https://github.com/FosRexx">FosRexx</a>](https://github.com/FosRexx)
+[<img src="https://github.com/MilanRegmiGitH.png" width="60px;"/><ahref="https://github.com/MilanRegmiGitH">MilanRegmiGitH</a>](https://github.com/MilanRegmiGitH)
+
