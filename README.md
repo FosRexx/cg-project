@@ -37,5 +37,5 @@ make
 ```
 
 ## Group Members
-[![](https://avatars.githubusercontent.com/u/105154048?v=4&s=5)](https://github.com/FosRexx)
-[![](https://avatars.githubusercontent.com/u/109144980?v=4&s=5)](https://github.com/MilanRegmiGitH)
+[![](https://github.com/FosRexx.png?s=50)](https://github.com/FosRexx)
+[![](https://github.com/MilanRegmiGitH.png?s=50)](https://github.com/MilanRegmiGitH)
