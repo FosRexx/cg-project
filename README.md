@@ -9,7 +9,7 @@ https://github.com/FosRexx/cg-project/assets/105154048/ba6894d9-a238-4e63-9089-c
 
 https://github.com/FosRexx/cg-project/assets/105154048/8ca4f40a-ddb2-442e-ab83-6ecb68c914e0
 
-*Raycasting but with textured walls insted of just colored lines*
+*Raycasting but with textured walls insted of just colored lines (floor branch)*
 
 ## Build Dependencies
 * [Git](https://git-scm.com/)
